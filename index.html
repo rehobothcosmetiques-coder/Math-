@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Exercices de Maths Avancés</title>
+
+<style>
+body{
+    font-family: Arial;
+    margin:0;
+    background:#0f0f0f;
+    color:white;
+}
+
+header{
+    background:#1c1c1c;
+    text-align:center;
+    padding:20px;
+}
+
+h1{
+    margin:0;
+}
+
+.container{
+    padding:20px;
+    max-width:1000px;
+    margin:auto;
+}
+
+.exercise{
+    background:#1e1e1e;
+    padding:15px;
+    margin:15px 0;
+    border-radius:10px;
+}
+
+button{
+    margin-top:10px;
+    padding:6px 12px;
+    border:none;
+    background:#00bcd4;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+.answer{
+    display:none;
+    margin-top:10px;
+    color:#4caf50;
+    white-space:pre-line;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Exercices de Maths Avancés</h1>
+<p>Vecteurs, fonctions, équations et inéquations</p>
+</header>
+
+<div class="container" id="list"></div>
+
+<script>
+
+function rand(min,max){
+    return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+// EXERCICES COMPLEXES
+function generate(i){
+
+    let type = rand(1,4);
+    let q = "";
+    let a = "";
+
+    // VECTEURS
+    if(type === 1){
+        let ax = rand(-5,5), ay = rand(-5,5);
+        let bx = rand(-5,5), by = rand(-5,5);
+
+        q = "Soit A(" + ax + "," + ay + ") et B(" + bx + "," + by + ").\n" +
+            "1) Calculer le vecteur AB.\n" +
+            "2) Calculer la norme de AB.";
+
+        let vx = bx - ax;
+        let vy = by - ay;
+        let norme = Math.sqrt(vx*vx + vy*vy).toFixed(2);
+
+        a = "AB = (" + vx + "," + vy + ")\nNorme ≈ " + norme;
+    }
+
+    // FONCTIONS
+    else if(type === 2){
+        let a1 = rand(1,3);
+        let b = rand(-5,5);
+        let c = rand(-10,10);
+
+        let x = rand(-3,3);
+        let fx = a1*x*x + b*x + c;
+
+        q = "On considère la fonction f(x) = " + a1 + "x² + " + b + "x + " + c + ".\n" +
+            "1) Calculer f(" + x + ").\n" +
+            "2) Étudier le signe de f(x) sur un intervalle simple.";
+
+        a = "f(" + x + ") = " + fx + "\nÉtude du signe dépend du discriminant Δ.";
+    }
+
+    // EQUATIONS
+    else if(type === 3){
+        let a1 = rand(1,5);
+        let b = rand(-10,10);
+        let c = rand(-10,10);
+        let d = rand(1,5);
+
+        q = "Résoudre l'équation : " + a1 + "(x + " + b + ") = " + d + "x + " + c;
+
+        let solution = ((a1*b - c) / (d - a1)).toFixed(2);
+
+        a = "x = " + solution;
+    }
+
+    // INEQUATIONS
+    else{
+        let a1 = rand(1,4);
+        let b = rand(-10,10);
+        let c = rand(-10,10);
+
+        q = "Résoudre l'inéquation : " + a1 + "x + " + b + " > " + c;
+
+        let sol = (c - b) / a1;
+
+        a = "x > " + sol.toFixed(2);
+    }
+
+    return {q,a};
+}
+
+// AFFICHAGE
+const container = document.getElementById("list");
+
+for(let i=1;i<=2000;i++){
+
+    let ex = generate(i);
+
+    let div = document.createElement("div");
+    div.className = "exercise";
+
+    div.innerHTML = `
+        <strong>Exercice ${i}</strong><br>
+        ${ex.q}
+        <br>
+        <button onclick="this.nextElementSibling.style.display='block'">
+            Afficher la réponse
+        </button>
+        <div class="answer">${ex.a}</div>
+    `;
+
+    container.appendChild(div);
+}
+
+</script>
+
+</body>
+</html>
